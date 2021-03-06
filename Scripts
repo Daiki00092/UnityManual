@@ -1,0 +1,69 @@
+//----時間を測る為のスクリプト----
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Timer : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        StartCoroutine(CountDown());
+    }
+    //コルーチン・時間を測るもの
+    IEnumerator CountDown()
+    {
+        int i = 0;
+        Debug.Log("カウントダウンスタート");
+        while (true)
+        {
+        yield return new WaitForSeconds(1);
+        Debug.Log(i++);
+        }
+    }
+}
+
+//-----------------------------------------------------
+//----オブジェクトをマウスで扱うためのスクリプト----
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+public class CardMovement : MonoBehaviour, IDragHandler
+{
+    public void OnDrag(PointerEventData eventData)
+    {
+        transform.position = eventData.position;
+    }
+}
+
+//-----------------------------------------------------
+//Scriptableオブジェクトの生成(scriptに属性を持たせる)
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName ="CardEntity",menuName ="Create Entity")]
+public class Entity : ScriptableObject
+{
+    public int hp;
+    public int at;
+}
+
+//-----------------------------------------------------
+//移動アセットDoTweenの使い方
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using DG.Tweening;
+
+public class CardAnimationManager : MonoBehaviour
+{
+    //移動先を用意(窓口)
+    [SerializeField] Transform endPoint;
+    void Start()
+    {
+        transform.DOMove(endPoint.position,2f);
+    }
+}
